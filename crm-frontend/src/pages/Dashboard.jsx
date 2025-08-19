@@ -1,3 +1,5 @@
+import CreateLeadModal from "../components/CreateLeadModal";
+
 import { useState, useEffect } from "react";
 import { 
   BarChart3, Users, DollarSign, TrendingUp, Phone, Mail, Calendar, 
@@ -19,6 +21,12 @@ export default function Dashboard() {
   const [showFilters, setShowFilters] = useState(false);
   const [selectedLeads, setSelectedLeads] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+
+  const handleLeadCreated = (newLead) => {
+  setLeads([...leads, newLead]); // append new lead
+};
 
   // Enhanced stats with more detailed data
   const stats = [
@@ -141,6 +149,7 @@ export default function Dashboard() {
   }
 
   return (
+    
     <div className={`min-h-screen transition-all duration-500 ${darkMode ? 'bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900' : 'bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100'}`}>
       {/* Enhanced Header */}
       <header className={`${darkMode ? 'bg-gray-800/80 border-gray-700/50' : 'bg-white/80 border-white/20'} backdrop-blur-xl border-b sticky top-0 z-50 transition-all duration-300`}>
@@ -175,6 +184,12 @@ export default function Dashboard() {
               className={`p-3 ${darkMode ? 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50' : 'bg-white/50 text-gray-600 hover:bg-white/80'} rounded-xl transition-all backdrop-blur-sm border ${darkMode ? 'border-gray-600' : 'border-gray-200'}`}
             >
               <Filter className="w-5 h-5" />
+            </button>
+            <button
+            onClick={() => setIsModalOpen(true)}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+            + Add Lead
             </button>
 
             <div className="relative">
@@ -576,6 +591,11 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+      <CreateLeadModal
+       isOpen={isModalOpen}
+       onClose={() => setIsModalOpen(false)}
+       onLeadCreated={handleLeadCreated}
+      />
     </div>
   );
 }

@@ -30,7 +30,7 @@ export default function Login() {
 
       const data = await res.json();
       login(data.access_token);
-
+      localStorage.setItem("token", data.access_token);
       setSuccess("✅ You have successfully logged in!");
       setTimeout(() => navigate("/dashboard"), 1500);
     } catch (err) {

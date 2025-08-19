@@ -1,0 +1,35 @@
+/* Import Tailwind layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==== Custom Global Styles (only if needed) ==== */
+
+/* Root variables (optional, can extend Tailwind later) */
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Remove default margins */
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* Links styling (you could also use Tailwind classes instead) */
+a {
+  @apply font-medium text-indigo-600 hover:text-indigo-500 no-underline;
+}
+
+/* Button reset (we’ll style buttons with Tailwind in components) */
+button {
+  @apply rounded-lg border px-4 py-2 font-medium transition-colors duration-200;
+}

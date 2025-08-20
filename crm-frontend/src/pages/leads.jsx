@@ -1,12 +1,14 @@
-// src/components/LeadsTable.jsx
 import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 
 import { toast } from "react-hot-toast";
+import CreateLeadModal from "../components/CreateLeadModal";
 
-export default function LeadsTable() {
+
+export default function Leads() {
   const [leads, setLeads] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch all leads
   const fetchLeads = async () => {
@@ -15,7 +17,7 @@ export default function LeadsTable() {
       const { data, error } = await supabase
         .from("leads")
         .select("*")
-        .order("created", { ascending: false });
+        .order("created", { ascending: false }); // ✅ schema field
       if (error) throw error;
       setLeads(data || []);
     } catch (err) {
@@ -40,7 +42,7 @@ export default function LeadsTable() {
     }
   };
 
-  // Update lead inline
+  // Update lead (inline)
   const updateLead = async (id, field, value) => {
     try {
       const { error } = await supabase
@@ -63,34 +65,43 @@ export default function LeadsTable() {
   }, []);
 
   return (
-    <div className="p-6 rounded-2xl bg-white/80 backdrop-blur border border-gray-200 shadow">
-      <h2 className="text-2xl font-bold mb-4">All Leads</h2>
+    <div className="p-6">
+      {/* Header with Add button */}
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold">Leads Management</h2>
+        <button
+  onClick={() => setIsModalOpen(true)}
+  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+>
+  + Add Lead
+</button>
 
+      </div>
+
+      {/* Table */}
       {loading ? (
         <p>Loading...</p>
       ) : leads.length === 0 ? (
         <p>No leads found.</p>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse border border-gray-300 text-sm">
+          <table className="w-full border-collapse border border-gray-300">
             <thead className="bg-gray-100">
               <tr>
-                <th className="border p-2">first_name</th>
-                <th className="border p-2">last_name</th>
-                <th className="border p-2">company</th>
-                <th className="border p-2">email</th>
-                <th className="border p-2">phone</th>
-                <th className="border p-2">source</th>
-                <th className="border p-2">status</th>
-                <th className="border p-2">notes</th>
-                <th className="border p-2">owner_email</th>
-                <th className="border p-2">created</th>
-                
+                <th className="border p-2">Name</th>
+                <th className="border p-2">Company</th>
+                <th className="border p-2">Email</th>
+                <th className="border p-2">Phone</th>
+                <th className="border p-2">Source</th>
+                <th className="border p-2">Status</th>
+                <th className="border p-2">Notes</th>
+                <th className="border p-2">Created</th>
+                <th className="border p-2">Actions</th>
               </tr>
             </thead>
             <tbody>
               {leads.map((lead) => (
-                <tr key={lead.id}>
+                <tr key={lead.id} className="hover:bg-gray-50">
                   <td className="border p-2">
                     {lead.first_name} {lead.last_name}
                   </td>
@@ -106,36 +117,13 @@ export default function LeadsTable() {
                   </td>
                   <td className="border p-2">{lead.phone}</td>
                   <td className="border p-2">{lead.source}</td>
-                  <td className="border p-2">
-                    <select
-                      className="border rounded p-1"
-                      value={lead.status}
-                      onChange={(e) =>
-                        updateLead(lead.id, "status", e.target.value)
-                      }
-                    >
-                      <option value="new">New</option>
-                      <option value="hot">Hot</option>
-                      <option value="won">Won</option>
-                      <option value="lost">Lost</option>
-                    </select>
-                  </td>
-                  <td className="border p-2">
-                    <textarea
-                      className="border rounded p-1 w-full"
-                      rows="1"
-                      value={lead.notes || ""}
-                      onChange={(e) =>
-                        updateLead(lead.id, "notes", e.target.value)
-                      }
-                    />
-                  </td>
+                  <td className="border p-2">{lead.status}</td>
+                  <td className="border p-2">{lead.notes}</td>
                   <td className="border p-2">
                     {lead.created
                       ? new Date(lead.created).toLocaleDateString()
                       : "-"}
                   </td>
-                  <td className="border p-2">{lead.owner_email}</td>
                   <td className="border p-2 flex gap-2">
                     <button
                       onClick={() => deleteLead(lead.id)}
@@ -150,6 +138,13 @@ export default function LeadsTable() {
           </table>
         </div>
       )}
+
+      {/* Create Modal */}
+      <CreateLeadModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onLeadCreated={fetchLeads} // ✅ refresh table after add
+      />
     </div>
   );
 }

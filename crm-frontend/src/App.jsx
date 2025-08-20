@@ -4,10 +4,12 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
-
+import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ErrorBoundary from "./components/ErrorBoundary";
+import Leads from "./pages/Leads";   // 👈 add this at the top
+
 import "./App.css";
 
 export default function App() {
@@ -63,17 +65,16 @@ export default function App() {
                   }
                 />
 
+                
                 <Route
-                  path="/leads"
-                  element={
-                    <ProtectedRoute>
-                      <div className="dashboard-layout">
-                        <h2 className="text-xl font-bold">Leads Management</h2>
-                        <p>Coming soon...</p>
-                      </div>
-                    </ProtectedRoute>
-                  }
-                />
+  path="/leads"
+  element={
+    <ProtectedRoute>
+      <Leads />
+    </ProtectedRoute>
+  }
+/>
+
 
                 <Route
                   path="/contacts"
@@ -115,6 +116,8 @@ export default function App() {
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </Routes>
             </div>
+            {/* ✅ Toaster placed globally, works on all pages */}
+            <Toaster position="top-right" />
           </AuthProvider>
         </BrowserRouter>
       </ThemeProvider>

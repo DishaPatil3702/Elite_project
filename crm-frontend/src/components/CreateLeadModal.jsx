@@ -53,7 +53,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg">
+      <div className="bg-Black p-6 rounded-2xl shadow-xl w-full max-w-lg">
         <h2 className="text-xl font-bold mb-4">Add New Lead</h2>
         <form onSubmit={handleSubmit} className="grid gap-3">
           <div className="grid grid-cols-2 gap-2">
@@ -64,7 +64,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
               value={formData.first_name}
               onChange={handleChange}
               required
-              className="border p-2 rounded"
+              className="border p-2 rounded text-blue-600 placeholder-gray-400"
             />
             <input
               type="text"
@@ -73,7 +73,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
               value={formData.last_name}
               onChange={handleChange}
               required
-              className="border p-2 rounded"
+              className="border p-2 rounded text-blue-600 placeholder-gray-400"
             />
           </div>
 
@@ -83,7 +83,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
             placeholder="Company"
             value={formData.company}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
           />
 
           <input
@@ -93,7 +93,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
             value={formData.email}
             onChange={handleChange}
             required
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
           />
 
           <input
@@ -102,7 +102,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
             placeholder="Phone"
             value={formData.phone}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
           />
 
           <input
@@ -111,14 +111,14 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
             placeholder="Source (e.g. Website, Referral)"
             value={formData.source}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
           />
 
           <select
             name="status"
             value={formData.status}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
             required
           >
             <option value="new">New</option>
@@ -132,7 +132,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
             placeholder="Notes"
             value={formData.notes}
             onChange={handleChange}
-            className="border p-2 rounded"
+            className="border p-2 rounded text-blue-600 placeholder-gray-400"
           />
 
           <div className="flex justify-end gap-2 mt-4">

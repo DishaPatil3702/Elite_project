@@ -1,7 +1,7 @@
 # app/models/lead.py
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
-from datetime import date
+from datetime import datetime
 
 # ----------------------------
 # Base Lead Schema
@@ -15,7 +15,7 @@ class LeadBase(BaseModel):
     source: Optional[str] = Field(None, example="Website")
     status: str = Field(..., example="new")
     notes: Optional[str] = Field(None, example="Interested in demo")
-    created: Optional[date] = Field(None, example="2025-08-16")
+    created: Optional[datetime] = Field(None, example="2025-08-16")
 
 # ----------------------------
 # Create Lead Schema

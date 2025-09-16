@@ -1,9 +1,14 @@
+#  backend/app/main.py
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer
 from fastapi.openapi.utils import get_openapi
 from fastapi.responses import JSONResponse
+from app.routes import lead, contact, auth, deals
+from app.routes import reports
+
 from dotenv import load_dotenv
+from app.routes import contact 
 import os
 import logging
 
@@ -30,17 +35,24 @@ app = FastAPI(
     description="A modern CRM backend powered by FastAPI and Supabase"
 )
 
-# =======================
-# CORS Middleware
-# =======================
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Change to frontend URL in production
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {"message": "Welcome to the CRM Backend!"}
+
+# ✅ include once
+app.include_router(auth.router)
+app.include_router(lead.router)
+app.include_router(contact.router) 
+app.include_router(deals.router)
+app.include_router(reports.router)
 # =======================
 # OAuth2 Security Scheme
 # =======================
@@ -56,13 +68,13 @@ def read_root():
 # =======================
 # Global Exception Middleware
 # =======================
-@app.middleware("http")
-async def catch_exceptions_middleware(request: Request, call_next):
-    try:
-        return await call_next(request)
-    except Exception as e:
-        logger.error(f"❌ Exception occurred: {e}", exc_info=True)
-        return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
+# @app.middleware("http")
+#async def catch_exceptions_middleware(request: Request, call_next):
+#   try:
+#        return await call_next(request)
+#   except Exception as e:
+ #       logger.error(f"❌ Exception occurred: {e}", exc_info=True)
+  #      return JSONResponse(status_code=500, content={"detail": "Internal Server Error"})
 
 # =======================
 # Include API Routes

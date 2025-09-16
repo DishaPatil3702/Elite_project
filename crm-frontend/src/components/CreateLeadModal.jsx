@@ -1,6 +1,11 @@
+// src/components/CreateLeadModal.jsx
 import { useState } from "react";
+import { toast } from "react-hot-toast";
+import { useAuth } from "../context/AuthContext";
 
 export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
+  const { user } = useAuth(); // ✅ get logged-in user info
+
   const [formData, setFormData] = useState({
     first_name: "",
     last_name: "",
@@ -9,11 +14,11 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
     phone: "",
     source: "",
     status: "new",
-    notes: ""
+    notes: "",
   });
 
   const [loading, setLoading] = useState(false);
-
+  const API_URL = import.meta.env.VITE_API_BASE_URL
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -26,8 +31,12 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
     setLoading(true);
 
     try {
-      const token = localStorage.getItem("token"); // ✅ Auth token from login
-      const response = await fetch("http://localhost:8000/leads/", {
+      const token = localStorage.getItem("token");
+      const payload = {
+        ...formData,
+        owner_email: user?.email || "unknown@crm.local",
+      };
+      const response = await fetch(`${API_URL}/leads/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -36,14 +45,30 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) throw new Error("Failed to create lead");
+      const data = await response.json();
 
-      const newLead = await response.json();
-      onLeadCreated(newLead); // ✅ tell dashboard to refresh
-      onClose();
+      if (response.ok) {
+        // backend returns { message, lead }
+        onLeadCreated(data.lead);
+        toast.success(data.message || "✅ Lead created successfully!");
+        onClose();
+        setFormData({
+          first_name: "",
+          last_name: "",
+          company: "",
+          email: "",
+          phone: "",
+          source: "",
+          status: "new",
+          notes: "",
+        });
+      } else {
+        console.error("Backend error:", data);
+        toast.error(data.detail || "Failed to create lead");
+      }
     } catch (error) {
       console.error("Error creating lead:", error);
-      alert("Failed to create lead. Try again.");
+      toast.error("Failed to create lead. Try again.");
     } finally {
       setLoading(false);
     }
@@ -53,7 +78,7 @@ export default function CreateLeadModal({ isOpen, onClose, onLeadCreated }) {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-Black p-6 rounded-2xl shadow-xl w-full max-w-lg">
+      <div className="bg-white p-6 rounded-2xl shadow-xl w-full max-w-lg">
         <h2 className="text-xl font-bold mb-4">Add New Lead</h2>
         <form onSubmit={handleSubmit} className="grid gap-3">
           <div className="grid grid-cols-2 gap-2">

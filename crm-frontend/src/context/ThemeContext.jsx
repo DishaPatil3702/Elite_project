@@ -15,7 +15,14 @@ export function ThemeProvider({ children }) {
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider
+      value={{
+        theme,                 // "dark" or "light"
+        toggleTheme,           // used by your button on pages
+        darkMode: theme === "dark",  // boolean for Switch
+        toggleDarkMode: toggleTheme  // alias for Switch
+      }}
+    >
       {children}
     </ThemeContext.Provider>
   );

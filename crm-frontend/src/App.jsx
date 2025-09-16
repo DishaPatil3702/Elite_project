@@ -1,14 +1,20 @@
+// App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import Leads from "./pages/Leads";
+import Contacts from "./pages/Contacts";
+import Deals from "./pages/Deals";
+import Reports from "./pages/Reports";
+import Settings from "./pages/Settings";
+import Layout from "./components/Layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Leads from "./pages/Leads";   // 👈 add this at the top
 
 import "./App.css";
 
@@ -55,47 +61,58 @@ export default function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
 
-                {/* Protected routes */}
+                {/* Protected routes with Layout */}
                 <Route
-                  path="/dashboard/*"
+                  path="/dashboard"
                   element={
                     <ProtectedRoute>
-                      <Dashboard />
+                      <Layout>
+                        <Dashboard />
+                      </Layout>
                     </ProtectedRoute>
                   }
                 />
 
-                
                 <Route
-  path="/leads"
-  element={
-    <ProtectedRoute>
-      <Leads />
-    </ProtectedRoute>
-  }
-/>
-
+                  path="/leads"
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <Leads />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route
                   path="/contacts"
                   element={
                     <ProtectedRoute>
-                      <div className="dashboard-layout">
-                        <h2 className="text-xl font-bold">Contact Management</h2>
-                        <p>Coming soon...</p>
-                      </div>
+                      <Layout>
+                        <Contacts />
+                      </Layout>
                     </ProtectedRoute>
                   }
                 />
 
                 <Route
-                  path="/analytics"
+                  path="/deals"
                   element={
                     <ProtectedRoute>
-                      <div className="dashboard-layout">
-                        <h2 className="text-xl font-bold">Analytics & Reports</h2>
-                        <p>Coming soon...</p>
-                      </div>
+                      <Layout>
+                        <Deals />
+                      </Layout>
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/reports"
+                  element={
+                    <ProtectedRoute>
+                      <Layout>
+                        <Reports />
+                      </Layout>
                     </ProtectedRoute>
                   }
                 />
@@ -104,10 +121,9 @@ export default function App() {
                   path="/settings"
                   element={
                     <ProtectedRoute>
-                      <div className="dashboard-layout">
-                        <h2 className="text-xl font-bold">Settings</h2>
-                        <p>Coming soon...</p>
-                      </div>
+                      <Layout>
+                        <Settings />
+                      </Layout>
                     </ProtectedRoute>
                   }
                 />
@@ -116,7 +132,8 @@ export default function App() {
                 <Route path="*" element={<Navigate to="/login" replace />} />
               </Routes>
             </div>
-            {/* ✅ Toaster placed globally, works on all pages */}
+
+            {/* Toaster placed globally, works on all pages */}
             <Toaster position="top-right" />
           </AuthProvider>
         </BrowserRouter>

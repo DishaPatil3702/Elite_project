@@ -5,7 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
   PieChart, Pie, Cell
 } from "recharts";
-import { Card, CardContent } from "../components/ui/card";
+import { Card, CardContent } from "../components/ui/Card";
 import { Loader2, AlertCircle } from "lucide-react";
 
 export default function Reports() {
@@ -14,7 +14,8 @@ export default function Reports() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const API_BASE = "http://127.0.0.1:8000/reports"; // update if backend hosted
+  const API_BASE = import.meta.env.VITE_API_BASE_URL + "/reports";
+ // update if backend hosted
 
   useEffect(() => {
     const fetchReports = async () => {

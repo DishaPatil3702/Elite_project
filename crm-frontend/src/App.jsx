@@ -9,7 +9,7 @@ import Contacts from "./pages/Contacts";
 import Deals from "./pages/Deals";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import Layout from "./components/Layout";
+import Layout from "./components/layout";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";

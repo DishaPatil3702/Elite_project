@@ -5,7 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Legend,
   PieChart, Pie, Cell
 } from "recharts";
-import { Card, CardContent } from "../components/ui/Card";
+import { Card, CardContent } from "../components/ui/Card1";
 import { Loader2, AlertCircle } from "lucide-react";
 
 export default function Reports() {

@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Card, CardContent } from "../components/ui/Card";
-import Button from "../components/ui/button";
-import Switch from "../components/ui/switch";
-import Input from "../components/ui/input";
-import { Label } from "../components/ui/label";
+import { Card, CardContent } from "../components/ui/Card1";
+import Button from "../components/ui/Button1";
+import Switch from "../components/ui/Switch1";
+import Input from "../components/ui/Input1";
+import { Label } from "../components/ui/Label1";
 import { useTheme } from "../context/ThemeContext"; 
 import { Loader2 } from "lucide-react";
 

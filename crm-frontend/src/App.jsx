@@ -2,14 +2,14 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import Login from "./pages/Login";
-import Signup from "./pages/Signup";
+import Signup from "./pages/Signup1";
 import Dashboard from "./pages/Dashboard";
 import Leads from "./pages/Leads";
 import Contacts from "./pages/Contacts";
 import Deals from "./pages/Deals";
 import Reports from "./pages/Reports";
 import Settings from "./pages/Settings";
-import Layout from "./components/layout";
+import Layout from "./components/Layout1";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
